@@ -20,11 +20,16 @@ public class Main {
                     opcaoConversor,
                     opcaoConversor[0]
             );
+
             if (tipoConvesor == "Convesor de Moeda") {
                 String moedaAConverter = MoedaAConverter();
                 BigDecimal valorConvertido = ValorConvertido(moedaAConverter);
                 if(valorConvertido!=null)
-                JOptionPane.showMessageDialog(null, "O Valor Convertido é de $" + valorConvertido);
+                    JOptionPane.showMessageDialog(null, "O Valor Convertido é de $" + valorConvertido);
+            } else if (tipoConvesor == "Convesor de Temperatura"){
+                Double valorConvertido = temperaturaAConverter();
+                if (valorConvertido!=null)
+                    JOptionPane.showMessageDialog(null,"A Temperatura convertida é "+valorConvertido+" graus.");
             }
             int continuar = JOptionPane.showConfirmDialog(
                     frame,
@@ -106,6 +111,46 @@ public class Main {
                 }
                 valorConvertido = valorConvertido.setScale(2,BigDecimal.ROUND_HALF_DOWN);
             }
+        return valorConvertido;
+    }
+
+    public static Double temperaturaAConverter(){
+        String[] tipoDeConversao = {"De Graus Celsius para Graus Fahrenheit","De Graus Fahrenheit  para Graus Celsius"};
+        Double valorConvertido = null;
+        JFrame frame = new JFrame("InputDialog");
+        String temperaturaAConverter = (String) JOptionPane.showInputDialog(
+                frame,
+                "Escolha Qual Escala Deseja Obter?",
+                "Temperatura",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                tipoDeConversao,
+                tipoDeConversao[0]
+        );
+        valorConvertido = TemperaturaConvertida(temperaturaAConverter);
+        return valorConvertido;
+    }
+    public static Double TemperaturaConvertida( String temperaturaAConverter){
+        Double valorConvertido = null;
+        Double valorInicial = null;
+        JFrame frame = new JFrame("InputDialog");
+        try {
+            valorInicial = Double.valueOf(JOptionPane.showInputDialog(
+                    frame,
+                    "Insira um Valor",
+                    "Valor Inicial",
+                    JOptionPane.WARNING_MESSAGE
+            ));
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(frame,e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+        }
+        if (valorInicial!=null) {
+            if (temperaturaAConverter == "De Graus Celsius para Graus Fahrenheit") {
+                valorConvertido= (valorInicial*1.8)+32;
+            } else {
+                valorConvertido= (valorInicial-32)/1.8;
+            }
+        }
         return valorConvertido;
     }
 }
